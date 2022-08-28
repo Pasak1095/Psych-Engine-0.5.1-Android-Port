@@ -1,7 +1,6 @@
 package;
 
 #if android
-import android.Hardware;
 import android.Permissions;
 import android.os.Build.VERSION;
 import android.os.Environment;
@@ -34,8 +33,6 @@ class SUtil
 		if (!Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE)
 			&& !Permissions.getGrantedPermissions().contains(PermissionsList.READ_EXTERNAL_STORAGE))
 		{
-			if (VERSION.SDK_INT > 23 || VERSION.SDK_INT == 23)
-			{
 				Permissions.requestPermissions([PermissionsList.WRITE_EXTERNAL_STORAGE, PermissionsList.READ_EXTERNAL_STORAGE]);
 
 				/**
@@ -44,11 +41,6 @@ class SUtil
 				Application.current.window.alert('If you accepted the permissions you are all good!' + "\nIf you didn't then expect a crash"
 					+ 'Press Ok to see what happens',
 					'Permissions?');
-			}
-			else
-			{
-				Application.current.window.alert('Please grant the game storage permissions in app settings' + '\nPress Ok io close the app', 'Permissions?');
-				System.exit(1);
 			}
 		}
 
@@ -118,50 +110,6 @@ class SUtil
 		#end
 	}
 
-	/**
-	 * Uncaught error handler, original made by: sqirra-rng
-	 */
-	public static function uncaughtErrorHandler()
-	{
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, function(u:UncaughtErrorEvent)
-		{
-			var callStack:Array<StackItem> = CallStack.exceptionStack(true);
-			var errMsg:String = '';
-
-			for (stackItem in callStack)
-			{
-				switch (stackItem)
-				{
-					case FilePos(s, file, line, column):
-						errMsg += file + ' (line ' + line + ')\n';
-					default:
-						Sys.println(stackItem);
-				}
-			}
-
-			errMsg += u.error;
-
-			Sys.println(errMsg);
-			Application.current.window.alert(errMsg, 'Error!');
-
-			try
-			{
-				if (!FileSystem.exists(SUtil.getPath() + 'crash'))
-					FileSystem.createDirectory(SUtil.getPath() + 'crash');
-
-				File.saveContent(SUtil.getPath() + 'crash/' + Application.current.meta.get('file') + '_'
-					+ FlxStringUtil.formatTime(Date.now().getTime(), true) + '.log',
-					errMsg + "\n");
-			}
-			catch (e:Dynamic)
-				#if android
-				Hardware.toast("Error!\nClouldn't save the crash dump because:\n" + e, 2);
-				#end
-
-			System.exit(1);
-		});
-	}
-
 	#if android
 	public static function saveContent(fileName:String = 'file', fileExtension:String = '.json', fileData:String = 'you forgot to add something in your code')
 	{
@@ -171,10 +119,10 @@ class SUtil
 				FileSystem.createDirectory(SUtil.getPath() + 'saves');
 
 			File.saveContent(SUtil.getPath() + 'saves/' + fileName + fileExtension, fileData);
-			Hardware.toast("File Saved Successfully!", 2);
+			Application.current.window.alert("File Saved Successfully!", 2);
 		}
 		catch (e:Dynamic)
-			Hardware.toast("Error!\nClouldn't save the file because:\n" + e, 2);
+			Application.current.window.alert("Error!\nClouldn't save the file because:\n" + e, 2);
 	}
 
 	public static function copyContent(copyPath:String, savePath:String)
@@ -185,7 +133,7 @@ class SUtil
 				File.saveBytes(savePath, OpenFlAssets.getBytes(copyPath));
 		}
 		catch (e:Dynamic)
-			Hardware.toast("Error!\nClouldn't copy the file because:\n" + e, 2);
+			Application.current.window.alert("Error!\nClouldn't copy the file because:\n" + e, 2);
 	}
 	#end
 }
