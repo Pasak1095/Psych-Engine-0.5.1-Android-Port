@@ -81,8 +81,8 @@ class Note extends FlxSprite
 	private function set_noteType(value:String):String {
 		noteSplashTexture = PlayState.SONG.splashSkin;
 		colorSwap.hue = ClientPrefs.arrowHSV[noteData % 4][0] / 360;
-		colorSwap.saturation = ClientPrefs.arrowHSV[noteData % 4][1] / 100;
-		colorSwap.brightness = ClientPrefs.arrowHSV[noteData % 4][2] / 100;
+		colorSwap.saturation = ClientPrefs.arrowHSV[noteData % 4][1] * 0.01;
+		colorSwap.brightness = ClientPrefs.arrowHSV[noteData % 4][2] * 0.01;
 
 		if(noteData > -1 && noteType != value) {
 			switch(value) {
@@ -162,7 +162,7 @@ class Note extends FlxSprite
 			multAlpha = 0.6;
 			if(ClientPrefs.downScroll) flipY = true;
 
-			offsetX += width / 2;
+			offsetX += width * 0.5;
 			copyAngle = false;
 
 			switch (noteData)
@@ -179,7 +179,7 @@ class Note extends FlxSprite
 
 			updateHitbox();
 
-			offsetX -= width / 2;
+			offsetX -= width * 0.5;
 
 			if (PlayState.isPixelStage)
 				offsetX += 30;
@@ -198,7 +198,7 @@ class Note extends FlxSprite
 						prevNote.animation.play('redhold');
 				}
 
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.05;
+				prevNote.scale.y *= Conductor.stepCrochet * 0.01 * 1.05;
 				if(PlayState.instance != null)
 				{
 					prevNote.scale.y *= PlayState.instance.songSpeed;
