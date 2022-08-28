@@ -41,7 +41,6 @@ class SUtil
 				Application.current.window.alert('If you accepted the permissions you are all good!' + "\nIf you didn't then expect a crash"
 					+ 'Press Ok to see what happens',
 					'Permissions?');
-			}
 		}
 
 		if (Permissions.getGrantedPermissions().contains(PermissionsList.WRITE_EXTERNAL_STORAGE)
