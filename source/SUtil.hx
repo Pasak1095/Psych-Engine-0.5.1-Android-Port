@@ -118,10 +118,10 @@ class SUtil
 				FileSystem.createDirectory(SUtil.getPath() + 'saves');
 
 			File.saveContent(SUtil.getPath() + 'saves/' + fileName + fileExtension, fileData);
-			Application.current.window.alert("File Saved Successfully!", 2);
+			Application.current.window.alert("File Saved Successfully!", 'Saved');
 		}
 		catch (e:Dynamic)
-			Application.current.window.alert("Error!\nClouldn't save the file because:\n" + e, 2);
+			Application.current.window.alert("Error!\nClouldn't save the file because:\n" + e, 'Error!');
 	}
 
 	public static function copyContent(copyPath:String, savePath:String)
@@ -132,7 +132,7 @@ class SUtil
 				File.saveBytes(savePath, OpenFlAssets.getBytes(copyPath));
 		}
 		catch (e:Dynamic)
-			Application.current.window.alert("Error!\nClouldn't copy the file because:\n" + e, 2);
+			Application.current.window.alert("Error!\nClouldn't copy the file because:\n" + e, 'Error!');
 	}
 	#end
 }
