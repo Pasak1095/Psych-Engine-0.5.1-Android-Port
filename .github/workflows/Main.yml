@@ -66,7 +66,7 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Build APK
-        run: haxelib run lime CI android
+        run: run lime build android
 
       - name: Publish Artifact
         uses: actions/upload-artifact@v2.2.4
