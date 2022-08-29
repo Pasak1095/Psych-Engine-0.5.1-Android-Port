@@ -67,9 +67,7 @@ jobs:
 
       - name: Build APK
         run: |
-
           haxelib run lime build android -debug
-
           rm export/debug/android/bin/app/build/outputs/apk/debug/*.json
 
       - name: Publish Artifact
